@@ -111,7 +111,7 @@ class TimelogsController < ApplicationController
     @timelog = Timelog.new
     respond_to do |format|
       if @timelog.save
-        @timelog.update_attributes!(:starttime => Time.now, :endtime => Time.now, :extra => 0, :lunchbreak => 0, :total => 0, :non_working => 'Yes', :toil => 'No')
+        @timelog.update_attributes!(:starttime => Time.zone.now, :endtime => Time.zone.now, :extra => 0, :lunchbreak => 0, :total => 0, :non_working => 'Yes', :toil => 'No')
         flash[:notice] = 'Extra work recorded successfully.'
         format.html { redirect_to(timelogs_path) }
         format.xml { head :ok }
@@ -127,7 +127,7 @@ class TimelogsController < ApplicationController
     @timelog = Timelog.new
     respond_to do |format|
       if @timelog.save
-        @timelog.update_attributes!(:starttime => Time.now, :endtime => Time.now, :extra => 555, :lunchbreak => 0, :non_working => 'No', :toil => 'Yes', :notes => 'TOIL')
+        @timelog.update_attributes!(:starttime => Time.zone.now, :endtime => Time.zone.now, :extra => 555, :lunchbreak => 0, :non_working => 'No', :toil => 'Yes', :notes => 'TOIL')
         flash[:notice] = 'TOIL recorded successfully.'
         format.html { redirect_to(timelogs_path) }
         format.xml { head :ok }
@@ -143,7 +143,7 @@ class TimelogsController < ApplicationController
     @timelog = Timelog.new
     respond_to do |format|
       if @timelog.save
-        @timelog.update_attributes!(:starttime => Time.now, :extra => 0, :lunchbreak => 30, :non_working => 'No', :toil => 'No')
+        @timelog.update_attributes!(:starttime => Time.zone.now, :extra => 0, :lunchbreak => 30, :non_working => 'No', :toil => 'No')
         flash[:notice] = 'Logged In successfully.'
         format.html { redirect_to(timelogs_path) }
         format.xml { head :ok }
@@ -160,7 +160,7 @@ class TimelogsController < ApplicationController
     @timelog = Timelog.find(Timelog.maximum(:id))
     if @timelog.endtime == nil
       respond_to do |format|
-        if @timelog.update_attributes!(:endtime => Time.now)
+        if @timelog.update_attributes!(:endtime => Time.zone.now)
           if @timelog.lunchbreak == nil
             @timelog.update_attributes!(:lunchbreak => 30)
           end
